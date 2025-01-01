@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealthify Payments Gateway</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <!-- Confetti JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="main-heading">
+        <div class="heading-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>Wealthify Payment Gateways®</h1>
+        </div>
+    </div>
+    <div class="container">
+        <form id="payment-form" method="POST">
+            <div class="row">
+                <div class="col">
+                    <div class="circle">{{first_alphabet}}</div>
+                    <div class="inputbox">
+                        <span>Paying to: {{recipient_name}}</span>
+                    </div>
+                    <div class="inputbox">
+                        <span>Amount:</span>
+                        <input type="number" id="amount" name="amount" placeholder="Enter amount" oninput="togglePayButton()">
+                    </div>
+                    <div class="inputbox">
+                        <span>Password:</span>
+                        <input type="password" id="password" name="password" placeholder="Enter password" oninput="togglePayButton()">
+                    </div>
+                </div>
+                <div class="submit-btn-container">
+                    <button type="button" class="submit-btn" id="pay-btn" onclick="validatePayment()" disabled>Pay</button>
+                </div>
+                <div class="col">
+                    <h6 class="powered-by">Powered by</h6>
+                </div>
+                <div class="col img-container">
+                    <img src="{{ url_for('static', filename='icons.png') }}" alt="Card Image">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="overlay hidden" id="overlay">
+        <div class="overlay-content">
+            <div class="loader" id="loader"></div>
+            <p id="status-text">Processing payment...</p>
+        </div>
+    </div>
+
+    <script>
+        // Pass correct password from Flask to JavaScript
+        var correctPassword = "{{ correct_password }}";  // Correct password passed from Flask
+        
+        function togglePayButton() {
+            const amount = document.getElementById('amount').value;
+            const password = document.getElementById('password').value;
+            const payButton = document.getElementById('pay-btn');
+            
+            // Enable the Pay button only if both fields are filled
+            if (amount && password) {
+                payButton.disabled = false;
+            } else {
+                payButton.disabled = true;
+            }
+        }
+
+        function validatePayment() {
+            const amount = document.getElementById('amount').value; // Get amount value
+            const password = document.getElementById('password').value;
+            const overlay = document.getElementById('overlay');
+            const loader = document.getElementById('loader');
+            const statusText = document.getElementById('status-text');
+            overlay.classList.remove('hidden');
+
+            // Simulate processing delay
+            setTimeout(() => {
+                if (password === correctPassword) {
+                    // Payment Successful
+                    loader.classList.add('success');
+                    loader.innerHTML = "&#10003;"; // Checkmark
+                    statusText.textContent = "Payment Successful!";
+
+                    // Trigger confetti
+                    triggerConfetti();
+
+                    // Optionally, send the amount to the server
+                    fetch('/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `amount=${amount}&password=${password}`
+                    });
+                } else {
+                    // Payment Failed
+                    loader.classList.add('failure');
+                    loader.innerHTML = "&#10007;"; // Cross mark
+                    statusText.textContent = "Payment Failed!";
+                }
+            }, 3000);
+        }
+        // Create and control the confetti canvas
+        function createConfettiCanvas() {
+            const confettiCanvas = document.createElement('canvas');
+            confettiCanvas.id = 'confetti-canvas';
+            confettiCanvas.style.position = 'fixed';
+            confettiCanvas.style.top = '0';
+            confettiCanvas.style.left = '0';
+            confettiCanvas.style.width = '100%';
+            confettiCanvas.style.height = '100%';
+            confettiCanvas.style.zIndex = '9999'; // Ensure it's above everything
+            confettiCanvas.style.pointerEvents = 'none'; // Do not block clicks
+            document.body.appendChild(confettiCanvas);
+            return confettiCanvas;
+        }
+
+        // Add confetti and ensure it's above
+        function triggerConfetti() {
+            const canvas = createConfettiCanvas(); // Create the canvas
+            const confettiInstance = confetti.create(canvas, { resize: true });
+            confettiInstance({
+                particleCount: 110,
+                spread: 90,
+                origin: { x: 0.5, y: 0.5 },
+            });
+
+            // Remove canvas after 5 seconds
+            setTimeout(() => {
+                canvas.remove();
+            }, 5000);
+        }
+    </script>
+
+    {% if status %}
+        <div class="result">
+            {% if status == 'success' %}
+                <p>Payment Successful!</p>
+                <p>Amount Received: ${{ received_amount }}</p>
+            {% else %}
+                <p>Payment Failed. Incorrect Password.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>

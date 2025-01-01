@@ -1,0 +1,247 @@
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    transition: all 0.2s linear;
+}
+
+body {
+    font-family: Calibri, sans-serif;
+}
+
+.main-heading {
+    background-color: #ee8319;
+    padding: 0px;
+    text-align: center;
+}
+
+.logo {
+    width: 55px; /* Adjust the size of the image */
+    height: auto;
+}
+
+.main-heading img {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.heading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Adjust gap between the image and the text */
+}
+
+.main-heading h1 {
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    min-height: 90vh;
+    background: #3f3f3f; /* Darker gray background */
+    padding-bottom: 100px;
+}
+
+.container form {
+    padding: 15px;
+    width: 100%;
+    max-width: 400px;
+    background: #FFDAB9;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 15px;
+    margin: 0;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.hidden {
+    display: none;
+}
+
+.overlay-content {
+    text-align: center;
+    color: white;
+}
+
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #ee8319;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+.loader.success {
+    border: none;
+    font-size: 40px;
+    color: white;
+    background-color: #4caf50;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: none; /* Stop rotation */
+}
+
+.loader.failure {
+    border: none;
+    font-size: 40px;
+    color: white;
+    background-color: #ff0000; /* Red background */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: none; /* Stop rotation */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.circle {
+    width: 115px; /* Larger width */
+    height: 115px; /* Larger height */
+    border-radius: 50%;
+    background-color: lightseagreen;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px; /* Larger font size */
+    margin: 20px auto 20px;
+}
+
+.container form .row {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.container form .row .col {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.container form .inputbox {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center; /* Center align text horizontally */
+    justify-content: center; /* Center align text vertically */
+    text-align: center;
+    margin: 10px 0 30px;
+}
+
+.container form .inputbox span {
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make text bold */
+    color: #333; /* Ensure good contrast */
+}
+
+.container form .inputbox input {
+    width: 100%;
+    border: 1px solid #ee8319;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+/* Remove spinner arrows for number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.submit-btn-container {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    align-items: center; /* Center the button vertically */
+    height: 15vh; /* Ensure the container takes up full height of the screen */
+}
+
+.submit-btn {
+    border-radius: 100%; /* Makes the button completely round */
+    width: 110px; /* Set the width */
+    height: 110px; /* Set the height equal to the width */
+    border: none; /* Remove any borders */
+    background-color: #ee8319; /* Customize the button's color */
+    color: white; /* Text color */
+    font-size: 18px; /* Adjust the font size */
+    display: flex; /* Enable flexbox for centering text */
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    cursor: pointer; /* Makes the cursor a pointer when hovering over the button */
+    font-weight: bold;
+}
+
+.container form .submit-btn:hover {
+    background: #95510f;
+}
+
+.powered-by {
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+    font-weight: normal;
+    background-color: #FFDAB9;
+    margin: 30px auto 0px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.container form .row .img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 0px;
+}
+
+.container form .row .img-container img {
+    width: 100%; /* Adjusted image size */
+    display: block;
+    margin: 0px auto 0px;
+}
+
+#confetti-canvas {
+    z-index: 9999 !important; /* Always on top */
+    pointer-events: none !important; /* No interaction */
+}
